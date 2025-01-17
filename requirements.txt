@@ -1,0 +1,11 @@
+# Data validation and modeling
+pydantic==2.10.5
+
+# Groq package
+groq==0.15.0
+
+# Environment variable management
+python-dotenv==1.0.1
+
+# HTTP requests
+requests==2.32.3
