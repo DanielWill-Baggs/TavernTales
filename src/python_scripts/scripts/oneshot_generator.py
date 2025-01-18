@@ -1,14 +1,14 @@
-from dotenv import load_dotenv
-import os, json
+from config.config import groq_api_key
 from groq import Groq
+from models.oneshotcampaign import MainOneShotCampaign
+import json
 
-from models.oneshotcampaign import OneShotCampaign
+# import sys
+# print(sys.path)
 
-load_dotenv()
-
-client = Groq(
-    api_key=os.environ.get("GROQ_API_KEY"),
-)
+# client = Groq(
+#     api_key=groq_api_key,
+# )
 
 groq=Groq()
 
@@ -29,7 +29,7 @@ groq=Groq()
     # - A logical progression of events leading to a satisfying conclusion.
 
 # Function to generate a one-shot campaign using Groq
-def generate_one_shot_campaign(settings: dict) -> OneShotCampaign:
+def generate_one_shot_campaign(settings: dict) -> MainOneShotCampaign:
     # Questions used to build the prompt
     questions = {
         "Setting": settings.get("world_type", "high fantasy"),
@@ -60,7 +60,7 @@ def generate_one_shot_campaign(settings: dict) -> OneShotCampaign:
 
 
     Return the campaign as a JSON object adhering to the schema: 
-    {json.dumps(OneShotCampaign.model_json_schema(), indent=2)}.
+    {json.dumps(MainOneShotCampaign.model_json_schema(), indent=2)}.
     """
 
     # Call Groq's chat completion API
@@ -81,16 +81,15 @@ def generate_one_shot_campaign(settings: dict) -> OneShotCampaign:
     )
 
     # Validate and return the campaign as a Pydantic model
-    return OneShotCampaign.model_validate_json(chat_completion.choices[0].message.content)
+    return MainOneShotCampaign.model_validate_json(chat_completion.choices[0].message.content)
 
-# Example usage
 if __name__ == "__main__":
-    # Define example user settings
+    # Define user settings
     user_settings = {
-        "world_type": "post-apocalyptic",
+        "world_type": "prehistoric, forest",
         "location": "a bustling airship port",
         "theme": "exploration and mystery",
-        "tone": "sad, grim, and dark",
+        "tone": "sad, grim, silver lining hopeful",
         "party": "magic-heavy",
         "objective": "investigate a missing airship",
         "challenges": "mechanical traps, rogue automatons, and rival treasure hunters",
