@@ -83,13 +83,13 @@ def generate_one_shot_campaign(settings: dict) -> MainOneShotCampaign:
     # Validate and return the campaign as a Pydantic model
     return MainOneShotCampaign.model_validate_json(chat_completion.choices[0].message.content)
 
-if __name__ == "__main__":
-    # Define user settings
-    user_settings = {
-        "world_type": "prehistoric, forest",
+def set_user_settings(user_settings: dict = None, **kwargs) -> dict:
+    # Default settings
+    default_settings = {
+        "setting": "high fantasy",
         "location": "a bustling airship port",
         "theme": "exploration and mystery",
-        "tone": "sad, grim, silver lining hopeful",
+        "tone": "wholesome",
         "party": "magic-heavy",
         "objective": "investigate a missing airship",
         "challenges": "mechanical traps, rogue automatons, and rival treasure hunters",
@@ -98,6 +98,20 @@ if __name__ == "__main__":
         "preferences": "more puzzles and exploration, less combat",
     }
 
+    # Update the settings with the passed-in user values (if any)
+    if user_settings:
+        default_settings.update(user_settings)
+
+    # Override or add new settings with kwargs
+    default_settings.update(kwargs)
+    
+    return default_settings
+
+
+if __name__ == "__main__":
+    # Set the user settings as the default
+    updated_settings = set_user_settings(world_type="cyberpunk", tone="dark")
+    user_settings = set_user_settings()
     # Generate the one-shot campaign
-    campaign = generate_one_shot_campaign(user_settings)
+    campaign = generate_one_shot_campaign(updated_settings)
     print(campaign.model_dump_json(indent=2))
