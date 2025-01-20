@@ -60,6 +60,41 @@ body {
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+  .img-wrapper > div {
+    height: 100%;
+  }
+  #welcome {
+    @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center;
+    height: 40%;
+    width: 40%;
+  }
+  #welcome .wrapper {
+    @apply flex flex-col items-center justify-center h-full w-full;
+  }
+  #welcome .header {
+    @apply space-y-1 text-center;
+  }
+  #welcome .header h1 {
+    @apply text-3xl font-bold leading-none;
+  }
+  #welcome .header p {
+    @apply text-lg text-muted-foreground;
+  }
+  #welcome .separator {
+    @apply my-4 w-full;
+  }
+  #welcome .links {
+    @apply flex h-5 items-center space-x-4 text-lg mt-4;
+  }
+  #welcome .links .button {
+    @apply flex items-center justify-center space-x-2 w-32;
+  }
+  #welcome .links .button .chevron {
+    @apply hidden;
+  }
+  #welcome .links .button:hover .chevron {
+    @apply inline;
+  }
 }
 
 @layer base {
@@ -70,3 +105,4 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
