@@ -1,7 +1,7 @@
 from config.config import groq_api_key
 from groq import Groq
 from models.oneshotcampaign import MainOneShotCampaign
-import json
+import json, sys
 
 # import sys
 # print(sys.path)
@@ -27,6 +27,8 @@ groq=Groq()
     # - Memorable NPCs with motivations and backstories.
     # - Engaging challenges (both combat and non-combat) tailored to the theme.
     # - A logical progression of events leading to a satisfying conclusion.
+
+
 
 # Function to generate a one-shot campaign using Groq
 def generate_one_shot_campaign(settings: dict) -> MainOneShotCampaign:
