@@ -24,7 +24,15 @@ model OneShotCampaign {
   key_npcs         NPC[]        // Relationship with NPCs
   encounters       Encounter[]  // Relationship with encounters
   rewards          String[]    // Array of rewards (nullable)
-}
+  //Story-driven Fields
+  location         String       // Location of the campaign
+  theme            String       // Focus on a main theme
+  party_composition String      // Player Composition
+  //Player-specific Fields 
+  length           String       // Total play time
+  preferences      String       // The type of campaign
+  }
+
 
 model NPC {
   id          Int              @id @default(autoincrement()) // Primary key with auto-increment
