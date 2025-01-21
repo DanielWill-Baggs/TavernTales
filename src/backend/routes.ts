@@ -1,5 +1,6 @@
 import { oneShotCampaignController } from "../backend/controller/oneShotCampaignController";
-import { runPythonScriptMiddleware } from "./middlewares/runPythonScript";
+import { generateOneShotMiddleware } from "./middlewares/generateOneShotMiddleware";
+import { setQuestionsMiddleware } from "./middlewares/setQuestionsMiddleware";
 type HttpMethod = "get" | "post" | "put" | "delete" | "patch";
 
 interface Route {
@@ -19,8 +20,14 @@ export const Routes: Route[] = [
   {
     method: "post",
     route: "/one-shot-campaigns",
-    middleware: [runPythonScriptMiddleware],
+    middleware: [setQuestionsMiddleware, generateOneShotMiddleware],
     controller: new oneShotCampaignController(),
     action: "createOneShotCampaign",
+  },
+  {
+    method: "get",
+    route: "/one-shot-campaigns-dev",
+    controller: new oneShotCampaignController(),
+    action: "sendParamsList",
   },
 ];
