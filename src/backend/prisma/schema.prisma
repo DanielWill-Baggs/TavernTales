@@ -13,6 +13,39 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model DnDCharacter {
+  id               Int      @id @default(autoincrement()) // Primary key with auto-increment
+  name             String   // Character name
+  characterClass   String   // Class of the character (e.g., Fighter, Mage, Rogue)
+  characterRace    String   // Race of the character (e.g., Human, Elf, Dwarf)
+  characterGender  String   // Gender of the character
+  characterAge     Int      // Age of the character
+  characterHair    String   // Hair color/description
+  characterEye     String   // Eye color
+  characterSkin    String   // Skin tone
+  alignment        String   // Alignment (e.g., Lawful Good, Chaotic Evil)
+  background       String   // Character background (e.g., Noble, Soldier, Criminal)
+  strength         Int      // Strength stat
+  dexterity        Int      // Dexterity stat
+  constitution     Int      // Constitution stat
+  intelligence     Int      // Intelligence stat
+  wisdom           Int      // Wisdom stat
+  charisma         Int      // Charisma stat
+  hitPoints        Int      // Current and max hit points
+  armorClass      Int      // Armor class
+  speed            Int      // Speed (movement range)
+  level            Int      // Character level
+  experience       Int      // Total experience points
+  inventory        String[] // List of items the character carries (e.g., sword, shield, potions)
+  spells           String[] // List of spells known (if applicable)
+  equipment        String[] // List of equipment the character owns (weapons, armor, etc.)
+  campaignId       Int      // Foreign key to connect character to a specific campaign
+
+  createdAt        DateTime @default(now()) // Timestamp when character is created
+  updatedAt        DateTime @updatedAt // Timestamp for when character info is updated
+
+  GeneratedImages GeneratedImages[]
+}
 model OneShotCampaign {
   id               Int          @id @default(autoincrement()) // Primary key with auto-increment
   campaign_title   String       // Title of the campaign
@@ -32,7 +65,8 @@ model OneShotCampaign {
   length           String       // Total play time
   preferences      String       // The type of campaign
   generatedImages GeneratedImages[] 
-  }
+  
+}
 
 
 model NPC {
@@ -55,12 +89,14 @@ model Encounter {
 }
 
 model GeneratedImages {
-  id      Int           @id @default(autoincrement())
-  imageType String
-  imageUrl   String 
-  imageName String
+  id           Int      @id @default(autoincrement())
+  imageType    String
+  imageUrl     String
+  imageName    String
+  campaignId   Int?     
+  characterId  Int?
   promptParams String[]
-  characterId Int
-  campaignId  Int
-  campaign OneShotCampaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  campaign     OneShotCampaign? @relation(fields: [campaignId], references: [id]) 
+  character    DnDCharacter? @relation(fields: [characterId], references: [id])
 }

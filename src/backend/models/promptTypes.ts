@@ -8,3 +8,17 @@ export interface DnDClassPromptVariables {
   characterGender: string;
   [key: string]: string;
 }
+
+export interface DnDCampaignPromptVariables {
+  campaign_title: string;
+  setting: string;
+  setting_details: string;
+  tone: string;
+  theme: string;
+  location: string;
+  party_composition: string;
+  introduction: string;
+  ending: string;
+  rewards: string;
+  [key: string]: string;
+}
