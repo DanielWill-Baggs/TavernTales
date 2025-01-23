@@ -31,6 +31,7 @@ model OneShotCampaign {
   //Player-specific Fields 
   length           String       // Total play time
   preferences      String       // The type of campaign
+  generatedImages GeneratedImages[] 
   }
 
 
@@ -53,3 +54,13 @@ model Encounter {
   campaign    OneShotCampaign  @relation(fields: [campaignId], references: [id], onDelete: Cascade) // Relationship with OneShotCampaign
 }
 
+model GeneratedImages {
+  id      Int           @id @default(autoincrement())
+  imageType String
+  imageUrl   String 
+  imageName String
+  promptParams String[]
+  characterId Int
+  campaignId  Int
+  campaign OneShotCampaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+}

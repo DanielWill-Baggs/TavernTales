@@ -6,4 +6,5 @@ export interface DnDClassPromptVariables {
   characterSkin: string;
   characterAge: string;
   characterGender: string;
+  [key: string]: string;
 }
