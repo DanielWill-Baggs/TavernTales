@@ -14,8 +14,11 @@ const main = async () => {
     // Iterating through defined routes
     Routes.forEach((route) => {
       const controller = route.controller;
+      const middlewares = route.middleware || [];
+
       app[route.method](
         route.route,
+        ...middlewares,
         async (req: Request, res: Response, next: Function) => {
           try {
             const result = await controller[route.action](req, res, next);

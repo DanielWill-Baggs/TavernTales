@@ -1,6 +1,8 @@
 import { oneShotCampaignController } from "../backend/controller/oneShotCampaignController";
+import { generateDnDImageController } from "../backend/controller/imageGeneratorController";
 import { generateOneShotMiddleware } from "./middlewares/generateOneShotMiddleware";
 import { setQuestionsMiddleware } from "./middlewares/setQuestionsMiddleware";
+import { setupPromptMiddleware } from "./middlewares/generateImageMiddleware";
 type HttpMethod = "get" | "post" | "put" | "delete" | "patch";
 
 interface Route {
@@ -29,5 +31,12 @@ export const Routes: Route[] = [
     route: "/one-shot-campaigns-dev",
     controller: new oneShotCampaignController(),
     action: "sendParamsList",
+  },
+  {
+    method: "post",
+    route: "/generate-image",
+    middleware: [setupPromptMiddleware],
+    controller: new generateDnDImageController(),
+    action: "generateImage",
   },
 ];
