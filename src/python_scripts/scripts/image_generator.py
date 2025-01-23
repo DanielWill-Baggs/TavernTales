@@ -1,8 +1,8 @@
 import requests
-prompt_text=f"A striking fantasy-themed artwork designed to captivate users on the authentication page of a Dungeons & Dragons character creation app. The image features a glowing enchanted doorway surrounded by intricate runes and carvings, symbolizing the gateway to a world of adventure. The doorway emits a warm, magical light that contrasts against a dark, mysterious background of ancient stone walls and scattered mystical artifacts. Above the doorway, an ornate crest with a dragon and crossed swords adds a heroic touch. The overall atmosphere is awe-inspiring, with glowing blue and golden hues, a subtle magical aura, and an inviting sense of mystery and discovery"
+prompt_text=f"The world of Tenebrous is a land ravaged by darkness, where the once-majestic Castle Eldrid now stands as a testament to the ravages of time. The castle's crumbling spires pierce the sky like skeletal fingers, casting long shadows over the surrounding lands. The air is thick with malevolent energy, and the very ground seems to writhe in agony. The castle's history is shrouded in mystery, but whispers speak of a powerful artifact hidden within its walls, waiting to be claimed by those brave (or foolhardy) enough to venture forth."
 def download_image(image_url):
     response = requests.get(image_url)
-    with open('authentication.png', 'wb') as file:
+    with open('sample.png', 'wb') as file:
         file.write(response.content)
     print('Download Completed')
 
