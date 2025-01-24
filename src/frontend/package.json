@@ -1,5 +1,5 @@
 {
-  "name": "taverntales",
+  "name": "test",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,20 +11,17 @@
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-label": "^2.1.1",
-    "@radix-ui/react-select": "^2.1.4",
+    "@radix-ui/react-select": "^2.1.5",
     "@radix-ui/react-separator": "^1.1.1",
     "@radix-ui/react-slot": "^1.1.1",
-    "@radix-ui/react-switch": "^1.1.2",
+    "@tailwindcss/postcss": "^4.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "d3": "^7.9.0",
-    "lucide-react": "^0.473.0",
-    "next": "15.1.5",
+    "lucide-react": "^0.474.0",
+    "next": "15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
-    "react-quick-pinch-zoom": "^5.1.0",
-    "react-zoom-pan-pinch": "^3.6.1",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.24.1"
@@ -35,9 +32,9 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "15.1.5",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
+    "eslint-config-next": "15.1.6",
+    "postcss": "^8.5.1",
+    "tailwindcss": "^3.4.17",
     "typescript": "^5"
   }
 }
