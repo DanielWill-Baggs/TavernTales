@@ -55,10 +55,10 @@ export class oneShotCampaignController {
               description: encounter.description,
               enemy_types: encounter.enemy_types,
               difficulty: encounter.difficulty,
-              rewards: encounter.rewards,
+              rewards: encounter.rewards || [],
             })),
           },
-          rewards: campaignData.rewards,
+          rewards: campaignData.rewards || [],
         },
       });
 

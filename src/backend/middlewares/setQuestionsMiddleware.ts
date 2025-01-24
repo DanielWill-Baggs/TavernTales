@@ -6,7 +6,8 @@ export const setQuestionsMiddleware = async (
   next: NextFunction
 ) => {
   try {
-    // Example: Gather parameters from request body or query
+    console.log("Received user inputs:", req.body.userInputs);
+    console.log("Type of user inputs:", typeof req.body.userInputs);
     const userInputs = req.body.userInputs || {};
     // Create a paramList based on user input
     const paramList = [
