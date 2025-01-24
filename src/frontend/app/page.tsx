@@ -1,101 +1,49 @@
+"use client";
 import Image from "next/image";
+import React, { useCallback, useRef } from "react";
+import QuickPinchZoom, { make3dTransformValue } from "react-quick-pinch-zoom";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const imgRef = useRef();
+  const zoomRef = useRef();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  const onUpdate = useCallback(({ x, y, scale }) => {
+    const { current: img } = imgRef;
+    // check if image exists
+    if (img) {
+      const value = make3dTransformValue({ x, y, scale });
+      img.style.setProperty("transform", value);
+    }
+  }, []);
+
+  return (
+    <div className="relative w-full h-full">
+      <main className="flex flex-col justify-center items-center text-center h-screen">
+        <div className="relative w-full h-screen">
+          <QuickPinchZoom
+            onUpdate={onUpdate}
+            tapZoomFactor={2}
+            zoomOutFactor={4}
+            inertiaFriction={0}
+            maxZoom={1.5}
+            minZoom={1}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <img 
+              src="/images/TavernTales-landing-bkg.png" 
+              alt="Tavern Tales" 
+              // style={{ width: "100%", height: "auto"}}
+              ref={imgRef} 
+              useMap="#image-map" />
+          </QuickPinchZoom>
+          
+
+          <map name="image-map">
+            <area target="_blank" alt="test char creation" title="test char creation" href="https://www.google.ca" coords="871,1020,866,993,866,962,835,922,830,882,844,851,870,836,905,823,960,814,989,814,1004,792,1029,792,1058,794,1064,806,1088,808,1097,782,1105,753,1126,733,1143,731,1161,743,1174,745,1184,721,1203,684,1227,677,1257,684,1274,710,1292,748,1302,770,1349,780,1379,772,1397,757,1406,709,1424,677,1438,669,1439,1023" shape="poly" />
+            <area target="_blank" alt="test campaign creation" title="test campaign creation" href="https://www.google.ca" coords="1092,633,1090,598,1090,542,1086,467,1087,393,1087,352,1124,336,1198,304,1270,275,1329,251,1331,295,1330,357,1330,495,1332,622,1332,659" shape="poly" />
+            <area target="_blank" alt="test dice" title="test dice" href="https://www.google.ca" coords="267,842,337,799,400,834,386,883,336,934,291,898" shape="poly" />
+          </map>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
