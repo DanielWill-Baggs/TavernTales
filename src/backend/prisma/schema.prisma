@@ -1,0 +1,102 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model DnDCharacter {
+  id               Int      @id @default(autoincrement()) // Primary key with auto-increment
+  name             String   // Character name
+  characterClass   String   // Class of the character (e.g., Fighter, Mage, Rogue)
+  characterRace    String   // Race of the character (e.g., Human, Elf, Dwarf)
+  characterGender  String   // Gender of the character
+  characterAge     Int      // Age of the character
+  characterHair    String   // Hair color/description
+  characterEye     String   // Eye color
+  characterSkin    String   // Skin tone
+  alignment        String   // Alignment (e.g., Lawful Good, Chaotic Evil)
+  background       String   // Character background (e.g., Noble, Soldier, Criminal)
+  strength         Int      // Strength stat
+  dexterity        Int      // Dexterity stat
+  constitution     Int      // Constitution stat
+  intelligence     Int      // Intelligence stat
+  wisdom           Int      // Wisdom stat
+  charisma         Int      // Charisma stat
+  hitPoints        Int      // Current and max hit points
+  armorClass      Int      // Armor class
+  speed            Int      // Speed (movement range)
+  level            Int      // Character level
+  experience       Int      // Total experience points
+  inventory        String[] // List of items the character carries (e.g., sword, shield, potions)
+  spells           String[] // List of spells known (if applicable)
+  equipment        String[] // List of equipment the character owns (weapons, armor, etc.)
+  campaignId       Int      // Foreign key to connect character to a specific campaign
+
+  createdAt        DateTime @default(now()) // Timestamp when character is created
+  updatedAt        DateTime @updatedAt // Timestamp for when character info is updated
+
+  GeneratedImages GeneratedImages[]
+}
+model OneShotCampaign {
+  id               Int          @id @default(autoincrement()) // Primary key with auto-increment
+  campaign_title   String       // Title of the campaign
+  setting          String       // Setting of the campaign
+  setting_details  String       // Detailed description of the setting
+  introduction     String       // Campaign introduction
+  ending           String       // Campaign ending
+  tone             String       // Tone of the campaign
+  key_npcs         NPC[]        // Relationship with NPCs
+  encounters       Encounter[]  // Relationship with encounters
+  rewards          String[]    // Array of rewards (nullable)
+  //Story-driven Fields
+  location         String       // Location of the campaign
+  theme            String       // Focus on a main theme
+  party_composition String      // Player Composition
+  //Player-specific Fields 
+  length           String       // Total play time
+  preferences      String       // The type of campaign
+  generatedImages GeneratedImages[] 
+  
+}
+
+
+model NPC {
+  id          Int              @id @default(autoincrement()) // Primary key with auto-increment
+  name        String           // Name of the NPC
+  role        String           // Role of the NPC
+  description String           // Description of the NPC
+  campaignId  Int              // Foreign key to OneShotCampaign
+  campaign    OneShotCampaign  @relation(fields: [campaignId], references: [id], onDelete: Cascade) // Relationship with OneShotCampaign
+}
+
+model Encounter {
+  id          Int              @id @default(autoincrement()) // Primary key with auto-increment
+  description String           // Description of the encounter
+  enemy_types String[]         // Array of enemy types
+  difficulty  String           // Difficulty level
+  rewards     String[]        // Array of rewards (nullable)
+  campaignId  Int              // Foreign key to OneShotCampaign
+  campaign    OneShotCampaign  @relation(fields: [campaignId], references: [id], onDelete: Cascade) // Relationship with OneShotCampaign
+}
+
+model GeneratedImages {
+  id           Int      @id @default(autoincrement())
+  imageType    String
+  imageUrl     String
+  imageName    String
+  campaignId   Int?     
+  characterId  Int?
+  promptParams String[]
+
+  campaign     OneShotCampaign? @relation(fields: [campaignId], references: [id]) 
+  character    DnDCharacter? @relation(fields: [characterId], references: [id])
+}

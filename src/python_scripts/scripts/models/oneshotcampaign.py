@@ -26,6 +26,13 @@ class MainOneShotCampaign(BaseModel):
     key_npcs: List[NPC]
     encounters: List[Encounter]
     rewards: List[str]
+    # Story-driven fields
+    location: Optional[str]
+    theme: Optional[str]
+    party_composition: Optional[str]
+    # Player-specific fields
+    length: Optional[str]
+    player_preferences: Optional[str]
 
 
 # Extended schema for story-driven fields
