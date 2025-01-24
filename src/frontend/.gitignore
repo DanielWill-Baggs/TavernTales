@@ -1,0 +1,6 @@
+.next
+tsconfig.json
+next-env.d.ts
+node_modules
+# Keep environment variables out of version control
+.env
