@@ -3,12 +3,14 @@ import * as bodyParser from "body-parser";
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { Routes } from "./routes";
+import cors from "cors";
 
 const prisma = new PrismaClient();
 
 const main = async () => {
   try {
     const app = express.default();
+    app.use(cors());
     app.use(bodyParser.json());
 
     // Iterating through defined routes

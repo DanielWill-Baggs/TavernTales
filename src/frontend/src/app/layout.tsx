@@ -14,9 +14,8 @@ const geistMono = Geist_Mono({
 
 const uncialAntiqua = Uncial_Antiqua({
   subsets: ["latin"],
-  weight: "400"
+  weight: "400",
 });
-
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -29,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${uncialAntiqua.className} antialiased`}
       >
