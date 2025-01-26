@@ -19,10 +19,9 @@ export function CampaignCard() {
   if (!isClient) return null;
 
   return (
-    // <Card className="w-[850px] h-[650px] bg-brown-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-3xl bg-opacity-100 border border-gray-100">
     <Card
-      className="bg-[url('https://images.pexels.com/photos/235985/pexels-photo-235985.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] drop-shadow-2xl
- bg-cover bg-center text-brown-900 p-8 rounded-lg shadow-xl border-2 border-yellow-700 w-[850px] mx-auto "
+      className="bg-[url('https://images.pexels.com/photos/235985/pexels-photo-235985.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] shadow-[0px_0px_40px_3px_rgba(255,227,46,1)]
+ bg-cover bg-center text-brown-900 p-8 rounded-lg border-2 border-yellow-700 w-[850px] mx-auto "
     >
       <CardHeader>
         <CardTitle
