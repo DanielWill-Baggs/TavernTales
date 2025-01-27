@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Uncial_Antiqua } from "next/font/google";
 import "./globals.css";
+import { LogoButton } from "@/components/ui/LogoButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,8 +31,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
+        suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} ${uncialAntiqua.className} antialiased`}
       >
+        <LogoButton />
+
         {children}
       </body>
     </html>
