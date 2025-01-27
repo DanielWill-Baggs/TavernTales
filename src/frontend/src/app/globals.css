@@ -61,6 +61,13 @@ body {
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+
+  .glassmorphism {
+    filter: blur(8px);
+    backdrop-filter: blur(8px);
+    opacity: 0.8;
+    transition: filter 0.3s ease, backdrop-filter 0.3s ease, opacity 0.3s ease;
+  }
 }
 
 @layer base {
