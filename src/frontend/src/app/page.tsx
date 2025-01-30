@@ -1,104 +1,142 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useCallback, useEffect } from "react";
 import Image from "next/image";
-import { make3dTransformValue } from "react-quick-pinch-zoom";
+import { CampaignIntroDialog } from "@/components/ui/Landing/CampaignIntroDiaglog";
 
 export default function Home() {
   const imgRef = useRef();
-  const [scale, setScale] = useState(1);
+  const [imageDimensions, setImageDimensions] = useState({ originalWidth: 0, originalHeight: 0, renderedWidth: 0, renderedHeight: 0 });
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [dialogContent, setDialogContent] = useState(null); // Track dialog content
+  const [isCooldown, setIsCooldown] = useState(false); // Track cooldown state
 
-  const handleAreaHover = (coords) => {
-    const { current: img } = imgRef;
-    if (img) {
-      const [x, y] = coords.split(',').map(Number);
-      const zoomScale = 1.1; // Adjust the scale factor as needed
-      const value = make3dTransformValue({ x: -x * (zoomScale - 1), y: -y * (zoomScale - 1), scale: zoomScale });
-      img.style.setProperty("transform", value);
-      img.classList.add("glassmorphism"); // Add glassmorphism effect
-    }
+  const contentMap = {
+    table: {
+      title: "Character Creation",
+      description: "Learn how to create your D&D character.",
+      paragraphs: [
+        "Creating a character is the first step in any D&D campaign. You'll choose a race, class, and background, and then customize your character's abilities, skills, and personality.",
+        "Your character's race determines their innate abilities, while their class defines their role in the party (e.g., fighter, wizard, rogue).",
+        "Work with your Dungeon Master to integrate your character into the campaign's story.",
+      ],
+    },
+    board: {
+      title: "Campaign Creation",
+      description: "Learn how to create a D&D campaign.",
+      paragraphs: [
+        "A D&D campaign is a series of interconnected adventures that tell a larger story. As the Dungeon Master, you'll create the world, design encounters, and guide the players through the narrative.",
+        "Start by outlining the main plot and key NPCs (non-player characters). Then, create smaller quests and challenges that tie into the overarching story.",
+        "Remember, the players' choices will shape the campaign, so be prepared to adapt and improvise!",
+      ],
+    },
   };
 
-  const handleAreaLeave = () => {
-    const { current: img } = imgRef;
-    if (img) {
-      const value = make3dTransformValue({ x: 0, y: 0, scale: 1 });
-      img.style.setProperty("transform", value);
-      img.classList.remove("glassmorphism"); // Remove glassmorphism effect
-    }
+  // Track the image's dimensions when it loads
+  const handleImageLoad = (event) => {
+    const { naturalWidth, naturalHeight } = event.target;
+    const renderedWidth = event.target.offsetWidth;
+    const renderedHeight = event.target.offsetHeight;
+    setImageDimensions({ originalWidth: naturalWidth, originalHeight: naturalHeight, renderedWidth, renderedHeight });
   };
 
-  // Function to adjust hotspot coordinates based on the current scale
-  const adjustCoords = (coords, scale) => {
+  // Adjust hotspot coordinates based on the rendered image size
+  const adjustCoords = (coords) => {
+    const { originalWidth, originalHeight, renderedWidth, renderedHeight } = imageDimensions;
+    const scaleX = renderedWidth / originalWidth;
+    const scaleY = renderedHeight / originalHeight;
+
     return coords
       .split(',')
-      .map((coord) => Math.round(Number(coord) * scale))
+      .map((coord, index) => {
+        const value = Number(coord);
+        return index % 2 === 0 ? Math.round(value * scaleX) : Math.round(value * scaleY);
+      })
       .join(',');
   };
 
-  return (
-      <main className="flex flex-col justify-center items-center text-center h-screen">
-        <div className="relative w-full h-screen overflow-visible">
-          <div className="absolute inset-0 w-full h-full">
-            {/* <img
-              src="/images/TavernTales-landing-bkg.png"
-              alt="Tavern Tales"
-              ref={imgRef}
-              useMap="#image-map"
-              /> */}
-            <Image
-              src="/images/TavernTales-landing-bkg.png"
-              alt="Tavern Tales"
-              ref={imgRef}
-              fill
-              style={{
-                objectFit: "cover",
-                minWidth: "120%",
-                minHeight: "120%",
-                top: "-10%",
-                left: "-10%",
-                transformOrigin: "center",
-              }}
-              useMap="#image-map"
-            />
-          </div>
+  // Handle area hover with cooldown check
+  const handleAreaHover = (areaId) => {
+    if (!isCooldown) {
+      setDialogContent(contentMap[areaId]); // Set content based on areaId
+      setIsDialogOpen(true); // Open dialog
+    }
+  };
 
-          <map name="image-map">
-            <area
-              id="table"
-              target="_blank"
-              alt="test char creation"
-              title="test char creation"
-              href="https://www.google.ca"
-              coords={adjustCoords("871,1020,866,993,866,962,835,922,830,882,844,851,870,836,905,823,960,814,989,814,1004,792,1029,792,1058,794,1064,806,1088,808,1097,782,1105,753,1126,733,1143,731,1161,743,1174,745,1184,721,1203,684,1227,677,1257,684,1274,710,1292,748,1302,770,1349,780,1379,772,1397,757,1406,709,1424,677,1438,669,1439,1023", scale)}
-              shape="poly"
-              onMouseEnter={() => handleAreaHover("871,1020")}
-              onMouseLeave={handleAreaLeave}
-            />
-            <area
-              id="board"
-              target="_blank"
-              alt="test campaign creation"
-              title="test campaign creation"
-              href="https://www.google.ca"
-              coords={adjustCoords("1090,649,1090,344,1337,222,1345,686", scale)}
-              shape="poly"
-              onMouseEnter={() => handleAreaHover("1090,649")}
-              onMouseLeave={handleAreaLeave}
-            />
-    
-            {/* <area
-              id="dice"
-              target="_blank"
-              alt="test dice"
-              title="test dice"
-              href="https://www.google.ca"
-              coords={adjustCoords("267,842,337,799,400,834,386,883,336,934,291,898", scale)}
-              shape="poly"
-              onMouseEnter={() => handleAreaHover("267,842")}
-              onMouseLeave={handleAreaLeave}
-            /> */}
-          </map>
+  // Handle area leave
+  const handleAreaLeave = () => {
+    const { current: img } = imgRef;
+    if (img) {
+      img.classList.remove("glassmorphism");
+    }
+  };
+
+  // Handle dialog close with cooldown
+  const handleDialogClose = () => {
+    setIsDialogOpen(false); // Close dialog
+    setIsCooldown(true); // Start cooldown
+    setTimeout(() => setIsCooldown(false), 300); // End cooldown after 300ms
+  };
+
+  // Recalculate coordinates on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      const { current: img } = imgRef;
+      if (img) {
+        const renderedWidth = img.offsetWidth;
+        const renderedHeight = img.offsetHeight;
+        setImageDimensions(prev => ({ ...prev, renderedWidth, renderedHeight }));
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return (
+    <main className="flex flex-col justify-center items-center text-center h-screen">
+      <div className="relative w-full h-screen overflow-visible">
+        <div className="absolute inset-0 w-full h-full">
+          <Image
+            src="/images/TavernTales-landing-bkg.png"
+            alt="Tavern Tales"
+            ref={imgRef}
+            fill
+            onLoad={handleImageLoad}
+            useMap="#image-map"
+            style={{ objectFit: "cover" }}
+          />
         </div>
-      </main>
+
+        <map name="image-map">
+          <area
+            id="table"
+            target="_blank"
+            alt="test char creation"
+            title="test char creation"
+            href="https://www.google.ca"
+            coords={adjustCoords("824,1013,834,840,1041,761,1224,669,1436,670,1437,1021")}
+            shape="poly"
+            onMouseEnter={() => handleAreaHover("table")}
+            onMouseLeave={handleAreaLeave}
+          />
+          <area
+            id="board"
+            target="_blank"
+            alt="test campaign creation"
+            title="test campaign creation"
+            href="https://www.google.ca"
+            coords={adjustCoords("1090,649,1090,344,1337,222,1345,686")}
+            shape="poly"
+            onMouseEnter={() => handleAreaHover("board")}
+            onMouseLeave={handleAreaLeave}
+          />
+        </map>
+        <CampaignIntroDialog
+          open={isDialogOpen}
+          onOpenChange={handleDialogClose}
+          content={dialogContent}
+        />
+      </div>
+    </main>
   );
 }
