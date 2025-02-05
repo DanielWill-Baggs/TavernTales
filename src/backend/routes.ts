@@ -1,5 +1,6 @@
 import { oneShotCampaignController } from "../backend/controller/oneShotCampaignController";
 import { generateDnDImageController } from "../backend/controller/imageGeneratorController";
+import { generateCharacterController } from "../backend/controller/generateCharacterController";
 import { generateOneShotMiddleware } from "./middlewares/generateOneShotMiddleware";
 import { setQuestionsMiddleware } from "./middlewares/setQuestionsMiddleware";
 import { setupPromptMiddleware } from "./middlewares/generateImageMiddleware";
@@ -39,4 +40,18 @@ export const Routes: Route[] = [
     controller: new generateDnDImageController(),
     action: "generateImage",
   },
+  {
+    method: "get",
+    route: "/generate-character",
+    controller: new generateCharacterController(),
+    action: "getAllCharacters",
+  },
+  {
+    method: "post",
+    route: "/generate-character",
+    middleware: [],
+    controller: new generateCharacterController(),
+    action: "createCharacter",
+  },
+
 ];
